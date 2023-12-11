@@ -57,7 +57,7 @@ class Request{
         this.xhr.onload = () => {
             if(this.xhr == 200){
 
-                callback(null,this.xhr.responseText);
+                callback(null,"Silme işlemi basarili..");
             }
             else{
                 callback("Bir hata oluştu..",null);
@@ -65,6 +65,26 @@ class Request{
         };
 
         this.xhr.send(JSON.stringify(data));
+    }
+
+    //DELETE Request
+
+    delete(url,callback){
+
+        // const temp = this;  //this sorunu çözümü için en ilkel yolu
+        this.xhr.open("DELETE",url);   
+
+        this.xhr.onload = () => {     
+            if(temp.xhr.status == 200){
+                callback(null,this.xhr.responseText);   //Başarılı ise boş bir obje dönecek
+            }
+            else{
+                callback("Bir hata oluştu..",null);
+            }
+
+        };
+
+        this.xhr.send();
     }
 }
 
@@ -97,5 +117,15 @@ request.put("https://jsonplaceholder.typicode.com/albums/10",{userid:58,title:"N
     }
     else{
         console.log(err);
+    }
+});
+
+request.delete("https://jsonplaceholder.typicode.com/albums/10",function(error,response){
+
+    if(error === null){
+        console.log(response);
+    }
+    else{
+        console.log(error);
     }
 });
