@@ -45,6 +45,27 @@ class Request{
 
         this.xhr.send(JSON.stringify(data));
     }
+
+    //PUT Request
+
+    put(url, data, callback){
+
+        this.xhr.open("PUT",url);   //Put ile id si belirtilen obje değerleri silinip baştan yazılır
+
+        this.xhr.setRequestHeader("Contect-type","application/json");
+
+        this.xhr.onload = () => {
+            if(this.xhr == 200){
+
+                callback(null,this.xhr.responseText);
+            }
+            else{
+                callback("Bir hata oluştu..",null);
+            }
+        };
+
+        this.xhr.send(JSON.stringify(data));
+    }
 }
 
 const request = new Request();
@@ -60,6 +81,16 @@ request.get("https://jsonplaceholder.typicode.com/albums",function(error,respons
 });
 
 request.post("https://jsonplaceholder.typicode.com/albums",{userid:2,title:"CR7"}, function(err, album){    //JSON a object i stringfy ile dönüştürerek gönderiyoruz
+
+    if(error === null){
+        console.log(album);
+    }
+    else{
+        console.log(err);
+    }
+});
+
+request.put("https://jsonplaceholder.typicode.com/albums/10",{userid:58,title:"Neymar JR."}, function(err, album){    //JSON a object i stringfy ile dönüştürerek gönderiyoruz
 
     if(error === null){
         console.log(album);
